@@ -41,80 +41,80 @@
     model：定义模型（app/model）  
 
 ###  swagger 使用
-	* npm i egg-swagger-doc --save  安装swagger  
-	* 配置   
-		// {app_root}/config/plugin.js
-		exports.swaggerdoc = {
-			enable: true,
-			package: 'egg-swagger-doc',
-		};
-		
-		// {app_root}/config/config.default.js
-		//swagger
-		exports.swaggerdoc = {
-			dirScanner: './app/controller',
-			apiInfo: {
-				title: 'egg-swagger',
-				description: 'swagger-ui for egg',
-				version: '1.0.0',
-			},
-			schemes: ['http', 'https'],
-			consumes: ['application/json'],
-			produces: ['application/json'],
-			securityDefinitions: {
-				// apikey: {
-				//   type: 'apiKey',
-				//   name: 'clientkey',
-				//   in: 'header',
-				// },
-				// oauth2: {
-				//   type: 'oauth2',
-				//   tokenUrl: 'http://petstore.swagger.io/oauth/dialog',
-				//   flow: 'password',
-				//   scopes: {
-				//     'write:access_token': 'write access_token',
-				//     'read:access_token': 'read access_token',
-				//   },
-				// },
-				},
-			enableSecurity: false,
-			// enableValidate: true,
-			routerMap: false,
-			enable: true,
-		};
-	* 使用  
-		router.js: 
-			router.redirect('/swagger', '/swagger-ui.html');  //重定位到swagger页面  访问http://127.0.0.1:7001/swagger  -> swagger-ui.html
-		要在swagger页面中显示，必须在controller中使用装饰器：
-			/**
-			 * @Controller 用户                                              -> controller 装饰器
-			 */
+  npm i egg-swagger-doc --save  安装swagger  
+  配置：   
+	// {app_root}/config/plugin.js
+	exports.swaggerdoc = {
+		enable: true,
+		package: 'egg-swagger-doc',
+	};
 
-			/**
-			 * @Router get /api/user
-			 * @Request query string *id eg:1 userId                        -> 路由restful 装饰器 
-			 * @Response 200 baseResponse OK
-			 */
-		另外需要在contract文件夹中新增type.js来配置swagger基本的返回类型，其他接口create的类型页需要在这里定义
+	// {app_root}/config/config.default.js
+	//swagger
+	exports.swaggerdoc = {
+		dirScanner: './app/controller',
+		apiInfo: {
+			title: 'egg-swagger',
+			description: 'swagger-ui for egg',
+			version: '1.0.0',
+		},
+		schemes: ['http', 'https'],
+		consumes: ['application/json'],
+		produces: ['application/json'],
+		securityDefinitions: {
+			// apikey: {
+			//   type: 'apiKey',
+			//   name: 'clientkey',
+			//   in: 'header',
+			// },
+			// oauth2: {
+			//   type: 'oauth2',
+			//   tokenUrl: 'http://petstore.swagger.io/oauth/dialog',
+			//   flow: 'password',
+			//   scopes: {
+			//     'write:access_token': 'write access_token',
+			//     'read:access_token': 'read access_token',
+			//   },
+			// },
+			},
+		enableSecurity: false,
+		// enableValidate: true,
+		routerMap: false,
+		enable: true,
+	};
+  使用  
+	router.js:    
+		router.redirect('/swagger', '/swagger-ui.html');  //重定位到swagger页面  访问http://127.0.0.1:7001/swagger  -> swagger-ui.html  
+	要在swagger页面中显示，必须在controller中使用装饰器：  
+		/**
+		 * @Controller 用户                                              -> controller 装饰器
+		 */
+
+		/**
+		 * @Router get /api/user
+		 * @Request query string *id eg:1 userId                        -> 路由restful 装饰器 
+		 * @Response 200 baseResponse OK
+		 */
+	另外需要在contract文件夹中新增type.js来配置swagger基本的返回类型，其他接口create的类型页需要在这里定义
+	'use strict';
+
+	module.exports = {
+		baseResponse: {
+			result: { type: 'boolean', required: true },
+			message: { type: 'string' },
+		},
+	}
+
+	在util中配置返回类型(在返回的result中固定成功返回success类型，错误则是error类型)：
 		'use strict';
 
 		module.exports = {
-			baseResponse: {
-				result: { type: 'boolean', required: true },
-				message: { type: 'string' },
+			ERROR: {
+				code: -1,
+				msg: 'error',
 			},
-		}
-		
-		在util中配置返回类型(在返回的result中固定成功返回success类型，错误则是error类型)：
-			'use strict';
-			
-			module.exports = {
-				ERROR: {
-					code: -1,
-					msg: 'error',
-				},
-				SUCCESS: {
-					code: 200,
-					msg: 'ok',
-				},
-			};
+			SUCCESS: {
+				code: 200,
+				msg: 'ok',
+			},
+		};
