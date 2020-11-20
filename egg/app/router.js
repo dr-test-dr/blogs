@@ -13,4 +13,10 @@ module.exports = app => {
   router.post('/api/user', controller.user.createUser);
   router.put('/api/user', controller.user.updateUser);
   router.delete('/api/user', controller.user.deleteUser);
+
+  //category
+  router.get('/api/category', controller.category.getCategory);
+  router.post('/api/category', controller.category.createCategory);
+  router.put('/api/category', controller.category.updateCategory);
+  router.delete('/api/category', controller.category.deleteCategory);
 };

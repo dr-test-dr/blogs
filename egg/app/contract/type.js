@@ -8,5 +8,8 @@ module.exports = {
     createUser: {
         username: { type: 'string', required: true, example: '张三' },
         password: { type: 'string', required: true, example: '123123' },
+    },
+    createCategory: {
+        categoryname: { type: 'string', required: true, example: '博客分类' },
     }
 }

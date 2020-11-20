@@ -2,7 +2,7 @@
 
 const Controller = require('egg').Controller;
 /**
- * @Controller 用户
+ * @Controller 用户管理
  */
 class UserController extends Controller {
     /**

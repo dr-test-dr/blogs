@@ -3,14 +3,14 @@
 const Service = require('egg').Service;
 const { ERROR, SUCCESS } = require('../util/util');
 
-class UserService extends Service {
-    async getOneUser(id) {
+class CatcaegoryService extends Service {
+    async getCategory(id) {
         const { ctx } = this
         try {
-            const user = await ctx.app.model.User.findOne({ where: { id: id } })
-            if (user) {
+            const category = await ctx.app.model.Category.findOne({ where: { id: id } })
+            if (category) {
                 return Object.assign(SUCCESS, {
-                    data: user,
+                    data: category,
                 });
             } else {
                 return Object.assign(ERROR, {
@@ -22,13 +22,12 @@ class UserService extends Service {
             throw (error);
         }
     }
-
-    async createUser(body) {
+    async createCategory(body) {
         const { ctx } = this;
         try {
-            const user = await ctx.app.model.User.create(body)
+            const category = await ctx.app.model.Category.create(body)
             return Object.assign(SUCCESS, {
-                data: user,
+                data: category,
             })
         } catch (error) {
             ctx.status = 500;
@@ -36,31 +35,31 @@ class UserService extends Service {
         }
     }
 
-    async updateUser(id, body) {
+    async updateCategory(id,body){
         const { ctx } = this;
-        const user = await ctx.app.model.User.findOne({ where: { id: id } });
-        if (!user) {
+        const category = await ctx.app.model.Category.findOne({ where: { id: id } });
+        if (!category) {
             return Object.assign(ERROR, {
                 msg: 'not found',
             });
         }
-        await user.update(body)
+        await category.update(body)
         return SUCCESS
     }
 
-    async deleteUser(id) {
+    async deleteCategory(id){
         const { ctx } = this;
-        const user = await ctx.app.model.User.findOne({ where: { id: id } });
-        if (!user) {
+        const category = await ctx.app.model.Category.findOne({ where: { id: id } });
+        if (!category) {
             return Object.assign(ERROR, {
                 msg: 'not found',
             });
         }
-        await user.destroy();
+        await category.destroy();
         return Object.assign(SUCCESS, {
             msg: 'delete ok',
         });
     }
 }
 
-module.exports = UserService;
+module.exports = CatcaegoryService;
